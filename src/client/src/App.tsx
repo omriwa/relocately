@@ -1,11 +1,12 @@
 import React, { memo, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, RouteProps } from "react-router-dom";
 import axios from 'axios';
 // components
 import { ITableProps } from './common/Table';
 import { HomePage } from './pages/HomePage';
+import { MoreInfoPage } from './pages/MoreInfoPage';
 
-interface IApiData {
+export interface IApiData {
     name: string,
     city: string,
     lat: number,
@@ -16,6 +17,12 @@ interface IApiData {
 const App = memo(() => {
     const [apiData, setApiData] = useState([]);
     const [isDataFetch, setIsDataFetch] = useState(false);
+    const [moreInfoPageData, setMoreInfoPageData] = useState({
+        name: '',
+        city: '',
+        lat: 0,
+        lng: 0,
+        country: ''});
 
     useEffect(() => {
         if (!isDataFetch) {
@@ -32,7 +39,12 @@ const App = memo(() => {
                 name: data.name,
                 city: data.city,
                 country: data.country,
-                linkToMoreInformation: "moreInfo"
+                linkToMoreInformation: <Link
+                    to='/info'
+                    onClick={() => setMoreInfoPageData(data)}
+                >
+                    More Info!
+                    </Link>
             }
         })
     }
@@ -47,6 +59,15 @@ const App = memo(() => {
                         columns={['name', 'city', 'country', 'more information']}
                         rowsData={getTableData()} />}
                 />
+                <Route
+                    path='/info'
+                    component={
+                        (routerProps: RouteProps) => <MoreInfoPage 
+                            data={moreInfoPageData}
+                            routerProps={routerProps}
+                        />
+                    }
+                    />
             </Router>
         </div>
     );
