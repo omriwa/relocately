@@ -3,7 +3,7 @@ const server = express();
 const NodeCache = require("node-cache");
 const request = require('request');
 // CACHE
-const cache = new NodeCache({stdTTL: 60 * 2,checkperiod: 60 * 1000 * 1});// cache for 2 minutes
+const cache = new NodeCache({stdTTL: 60 * 10,checkperiod: 60 * 1000 * 1});// cache for 2 minutes
 const headers = {
     'Authorization': 'training-token ABCDEFGHIJKML'
 };
@@ -30,7 +30,13 @@ request(options, callback);
 
 
 // ROUTES
-server.get('/', (req, res) => {
+server.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+server.get('/', (req, res,next) => {
     cache.get("apiData", function (err, apiData) {
         if (!err) {
             if (apiData == undefined) {
