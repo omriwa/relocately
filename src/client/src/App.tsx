@@ -1,7 +1,9 @@
 import React, { memo, useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios';
 // components
-import { Table } from './common/Table';
+import { ITableProps } from './common/Table';
+import { HomePage } from './pages/HomePage';
 
 interface IApiData {
     name: string,
@@ -37,10 +39,15 @@ const App = memo(() => {
 
     return (
         <div className="App">
-            <Table
-                columns={['name', 'city', 'country', 'more information']}
-                rowsData={getTableData()}
+            <Router>
+                <Route
+                    path='/'
+                    exact
+                    component={(routeProps: any, tableProps: ITableProps) => <HomePage
+                        columns={['name', 'city', 'country', 'more information']}
+                        rowsData={getTableData()} />}
                 />
+            </Router>
         </div>
     );
 });

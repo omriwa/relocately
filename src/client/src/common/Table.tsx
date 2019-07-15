@@ -1,6 +1,4 @@
 import React, { memo } from 'react';
-import { array } from 'prop-types';
-import { isArray } from 'util';
 
 export interface ITableProps {
     columns: string[];
