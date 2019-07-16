@@ -61,12 +61,7 @@ const App = memo(() => {
                 />
                 <Route
                     path='/info'
-                    component={
-                        (routerProps: RouteProps) => <MoreInfoPage 
-                            data={moreInfoPageData}
-                            routerProps={routerProps}
-                        />
-                    }
+                    component={() => <MoreInfoPage data={moreInfoPageData}/>}
                     />
             </Router>
         </div>

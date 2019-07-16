@@ -6,13 +6,12 @@ export interface ITableProps {
 }
 
 export const Table = memo((props: ITableProps) => {
-    console.log(props.rowsData)
     return <table>
         <thead>
             <tr>
                 {
                     props.columns
-                        .map((col, colIndex) => <th key={col + '-' + colIndex}>
+                        .map((col, colIndex) => <th key={'col-' + colIndex}>
                             {
                                 col
                             }
@@ -23,9 +22,14 @@ export const Table = memo((props: ITableProps) => {
 
         <tbody>
             {
-                props.rowsData.map((row: any) => <tr key={row}>
+                props.rowsData.map((row: any, rowIndex: number) => <tr key={'table-' + rowIndex}>
                     {
-                        Object.values(row).map((rowEntry: any) => <td key={row + '-' + rowEntry} >{rowEntry}</td>)
+                        Object.keys(row).map((key: string, rowEntryIndex: number) => <td
+                            key={'table-' + rowIndex + '-' + rowEntryIndex}
+                            data-label={key}
+                        >
+                            {row[key]}
+                        </td>)
                     }
                     </tr>)
             }
